@@ -30,6 +30,7 @@ inline bool Get_Base_Address(IN char* file_path, OUT PVOID* ImageBase, OUT ULONG
 	for (ULONG i = 0; i < pMods_List->Count; i++)
 	{
 		RtlInitAnsiString(&current_mod_path, (PCSZ)curr_Mod[i].FullPathName);
+		//DRV_PRINT("Current Module Name: %s\n", (PCSZ)curr_Mod[i].FullPathName);
 		if (RtlCompareString(&f_path, &current_mod_path, TRUE) == 0)
 		{
 			*ImageBase = curr_Mod[i].ImageBase;
@@ -48,6 +49,7 @@ inline ULONG64 Calc_VA(char* file_path, UINT32 RVA)
 	ULONG ImageSize;
 	if (Get_Base_Address(file_path, &ImageBase, &ImageSize))
 		return (UINT64)(ImageBase)+RVA;
+	DRV_PRINT("[-] Failed to get base address of %s\n", file_path);
 	return 0;
 }
 

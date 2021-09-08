@@ -2,7 +2,7 @@
 #include <ntifs.h>
 
 #define RVA_IoWMIQueryAllData 0x73000
-#define EAC_FILE_PATH "C:\Program Files (x86)\EasyAntiCheat\EasyAntiCheat.sys"
+#define EAC_FILE_PATH "\\??\\C:\\Program Files (x86)\\EasyAntiCheat\\EasyAntiCheat.sys"
 
 
 typedef struct _UD_IMPORT_ENTRY
