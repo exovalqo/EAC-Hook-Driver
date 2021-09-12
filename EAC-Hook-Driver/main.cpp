@@ -12,7 +12,7 @@ void Import_Dynamic_APIS()
 	
 	UD_ZwQuerySystemInformation = (ZWQUERYSYSTEMINFORMATION)MmGetSystemRoutineAddress(&function);
 	if(UD_ZwQuerySystemInformation)
-		DRV_PRINT("[+] Successfully found ZwQuerySystemInformation Address at 0x%X\n", UD_ZwQuerySystemInformation);
+		DRV_PRINT("[+] Successfully found ZwQuerySystemInformation Address at 0x%llX\n", UD_ZwQuerySystemInformation);
 	else
 		DRV_PRINT("[-] Failed to found ZwQuerySystemInformation Address\n");
 	//ZWQUERYSYSTEMINFORMATION UD_ZwQuerySystemInformation = (ZWQUERYSYSTEMINFORMATION)SYSTEMSERVICE(ZwQuerySystemInformation);
@@ -30,6 +30,9 @@ void DriverShellCode(IN PUNICODE_STRING FullImageName,
 		Import_Dynamic_APIS();
 		if (EAC_Hook::apply_all_data_ptr_hooks())
 			DRV_PRINT("[+] Successfully hooked all dynamic imports\n");
+		if(EAC_Hook::hook_Get_Export())
+			DRV_PRINT("[+] Successfully hooked GetExport()\n");
+
 	}
 }
 //Driverless Driver (treat as shellcode entry-point)

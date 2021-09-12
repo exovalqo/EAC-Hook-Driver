@@ -50,5 +50,8 @@
     <ClInclude Include="Global_Kernel_APIs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="hook.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

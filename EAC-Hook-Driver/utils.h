@@ -53,4 +53,45 @@ inline ULONG64 Calc_VA(char* file_path, UINT32 RVA)
 	return 0;
 }
 
+inline NTSTATUS KernelMemoryWrite(PVOID address, PVOID buffer, ULONG size)
+{
+	PMDL mdl = IoAllocateMdl(address, size, FALSE, FALSE, NULL);
+
+	if (!mdl)
+	{
+		return STATUS_UNSUCCESSFUL;
+	}
+
+	MmProbeAndLockPages(mdl, KernelMode, IoWriteAccess);
+
+	PVOID mapped_page = MmMapLockedPagesSpecifyCache(mdl, KernelMode, MmNonCached, NULL, FALSE, NormalPagePriority);
+
+	if (!mapped_page)
+	{
+		MmUnlockPages(mdl);
+		IoFreeMdl(mdl);
+		return STATUS_UNSUCCESSFUL;
+	}
+
+	NTSTATUS status = MmProtectMdlSystemAddress(mdl, PAGE_READWRITE);
+
+	if (!NT_SUCCESS(status))
+	{
+		MmUnmapLockedPages(mapped_page, mdl);
+		MmUnlockPages(mdl);
+		IoFreeMdl(mdl);
+		return STATUS_UNSUCCESSFUL;
+	}
+
+	//status = MmProtectMdlSystemAddress(mdl, PAGE_READWRITE);
+
+	RtlCopyMemory(mapped_page, buffer, size);
+
+	MmUnmapLockedPages(mapped_page, mdl);
+	MmUnlockPages(mdl);
+	IoFreeMdl(mdl);
+
+	return STATUS_SUCCESS;
+}
+
 
