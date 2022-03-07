@@ -28,8 +28,8 @@ void DriverShellCode(IN PUNICODE_STRING FullImageName,
 	{ 
 		DRV_PRINT("Executing Shellcode\n");
 		Import_Dynamic_APIS();
-		if (EAC_Hook::apply_all_data_ptr_hooks())
-			DRV_PRINT("[+] Successfully hooked all dynamic imports\n");
+		//if (EAC_Hook::apply_all_data_ptr_hooks())
+			//DRV_PRINT("[+] Successfully hooked all dynamic imports\n");
 		if(EAC_Hook::hook_Get_Export())
 			DRV_PRINT("[+] Successfully hooked GetExport()\n");
 

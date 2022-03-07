@@ -3,9 +3,9 @@
 
 #define RVA_IoWMIQueryAllData 0x73000
 #define EAC_FILE_PATH "\\??\\C:\\Program Files (x86)\\EasyAntiCheat\\EasyAntiCheat.sys"
-#define EAC_GET_EXPORT_FUNC_RVA 0x10234F
+#define EAC_GET_EXPORT_FUNC_RVA 0xCC18
 
-typedef UINT64(*EAC_GetExport)(UINT64 arg1);
+typedef UINT64(*EAC_GetExport)(UINT64 rcx, UINT64 rdx);
 typedef struct _UD_IMPORT_ENTRY
 {
 	UINT64 RVA;

@@ -53,20 +53,20 @@ namespace EAC_Hook
 
 	inline_hook_t hook_info;
 	EAC_GetExport originalGetExport = 0;
-	UINT64 hkGetExport(UINT64 arg1)
+
+	UINT64 hkGetExport(UINT64 rcx, UINT64 rdx)
 	{
-		
 		disable_inline_hook(&hook_info);
-		UINT64 returnValue = originalGetExport(arg1);
-		DRV_PRINT("[!]GetExport(0x%llX) = %llX\n", arg1, returnValue);
+		UINT64 returnValue = originalGetExport(rcx, rdx);
+		DRV_PRINT("[!]GetExport(0x%llX, 0x%llX) = 0x%llX\n", rcx, rdx,  returnValue);
 		enable_inline_hook(&hook_info);
 		return returnValue;
 	}
-
 	bool hook_Get_Export()
 	{
 		UINT64 get_export_va = Calc_VA(EAC_FILE_PATH, EAC_GET_EXPORT_FUNC_RVA);
 		originalGetExport = (EAC_GetExport)get_export_va;
+		DRV_PRINT("[!] originalGetExport = 0x%11X\n", originalGetExport);
 		make_inline_hook(&hook_info, (void*)get_export_va, &hkGetExport, true);
 
 		return true;
